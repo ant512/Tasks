@@ -36,6 +36,10 @@ namespace Tasks
 		/// </summary>
 		public TimeSpan Lag { get; set; }
 
+		#endregion
+
+		#region Methods
+
 		/// <summary>
 		/// Gets the start date of the dependency, using the supplied working week
 		/// definition to identify working vs. non-working times.
