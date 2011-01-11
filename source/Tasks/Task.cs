@@ -251,7 +251,7 @@ namespace Tasks
 		}
 
 		/// <summary>
-		/// Recalculates the start date of the task based on the start dates of its
+		/// Recalculates the dates of the task based on the start dates of its
 		/// dependencies.  The earliest date that the task will use as its start date
 		/// (in the situation where it has no dependencies, for example) is the value
 		/// passed as earliestDate.
