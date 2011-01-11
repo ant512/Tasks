@@ -6,23 +6,44 @@ using WorkingWeek;
 
 namespace Tasks
 {
+	/// <summary>
+	/// Used to recalculate the dates of all tasks in a project.
+	/// </summary>
 	public class DateCalculator
 	{
+		#region Classes
+
 		/// <summary>
 		/// Class that stores a task object along side a list of the tasks that
 		/// it is dependent on.
 		/// </summary>
 		private class TaskDependencies
 		{
-			public ITask Task { get; set; }
-			public List<ITask> Dependencies { get; set; }
+			/// <summary>
+			/// Gets the task.
+			/// </summary>
+			public ITask Task { get; private set; }
 
+			/// <summary>
+			/// Gets the list of tasks on which the task is dependent.
+			/// </summary>
+			public List<ITask> Dependencies { get; private set; }
+
+			/// <summary>
+			/// Initializes a new instance of the TaskDependencies class.
+			/// </summary>
+			/// <param name="task">The task.</param>
+			/// <param name="dependencies">The tasks on which the task is dependent.</param>
 			public TaskDependencies(ITask task, List<ITask> dependencies)
 			{
 				Task = task;
 				Dependencies = dependencies;
 			}
 		}
+
+		#endregion
+
+		#region Methods
 
 		/// <summary>
 		/// Get a flattened array of the tasks in the current tree array.  Each item in
@@ -191,5 +212,7 @@ namespace Tasks
 				task.RecalculateDates(earliestDate, week);
 			}
 		}
+
+		#endregion
 	}
 }
