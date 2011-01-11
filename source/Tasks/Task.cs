@@ -6,30 +6,60 @@ using WorkingWeek;
 
 namespace Tasks
 {
+	/// <summary>
+	/// Task class.
+	/// </summary>
 	public class Task : ITask
 	{
 		#region Members
 
+		/// <summary>
+		/// Cached start date of the task.
+		/// </summary>
 		private DateTime mStartDate;
+
+		/// <summary>
+		/// Cached end date of the task.
+		/// </summary>
 		private DateTime mEndDate;
+
+		/// <summary>
+		/// Duration of the task.  This represents the working time.  The actual period
+		/// that the task spans (from start date to end date) may exceed the duration if
+		/// this period includes non-working times.
+		/// </summary>
 		private TimeSpan mDuration;
 
 		#endregion
 
 		#region Properties
 
+		/// <summary>
+		/// Gets or sets a value representing the name of the task.
+		/// </summary>
 		public string Name { get; set; }
 
+		/// <summary>
+		/// Gets a value indicating whether or not the task has child tasks.
+		/// </summary>
 		public bool HasChildren
 		{
 			get { return Children.Count > 0; }
 		}
 
+		/// <summary>
+		/// Gets a value indicating whether or not the task has dependencies.
+		/// </summary>
 		public bool HasDependencies
 		{
 			get { return Dependencies.Count > 0; }
 		}
 
+		/// <summary>
+		/// Gets the start date of the task.  If the task has children, the start
+		/// date will be the start of the earliest child.  If not, the start date
+		/// will be the value calculated by the RecalculateDates() method.
+		/// </summary>
 		public DateTime StartDate
 		{
 			get
@@ -53,6 +83,11 @@ namespace Tasks
 			}
 		}
 
+		/// <summary>
+		/// Gets the end date of the task.  If the task has children, the start
+		/// date will be the end of the latest child.  If not, the end date
+		/// will be the value calculated by the RecalculateDates() method.
+		/// </summary>
 		public DateTime EndDate
 		{
 			get
@@ -76,8 +111,16 @@ namespace Tasks
 			}
 		}
 
+		/// <summary>
+		/// Gets the list of dependencies.
+		/// </summary>
 		public List<IDependency> Dependencies { get; private set; }
 
+		/// <summary>
+		/// Gets or sets the duration of the task.  This represents the working time. 
+		/// The actual period that the task spans (from start date to end date) may
+		/// exceed the duration if this period includes non-working times.
+		/// </summary>
 		public TimeSpan Duration
 		{
 			get
@@ -95,10 +138,20 @@ namespace Tasks
 			}
 		}
 
+		/// <summary>
+		/// Gets the order number of the task.  This should be used to order the tasks when
+		/// they are displayed.
+		/// </summary>
 		public int Order { get; set; }
 
+		/// <summary>
+		/// Gets or sets the task's parent task.  If null, the task has no parent.
+		/// </summary>
 		public ITask Parent { get; set; }
 
+		/// <summary>
+		/// Gets the list of the task's children.
+		/// </summary>
 		public List<ITask> Children { get; private set; }
 
 		#endregion
@@ -123,12 +176,22 @@ namespace Tasks
 
 		#region Methods
 
+		/// <summary>
+		/// Add a child to the task.  The new child's parent is automatically set to the
+		/// current task.
+		/// </summary>
+		/// <param name="task">The task to add as a child.</param>
 		public void AddChild(ITask task)
 		{
 			task.Parent = this;
 			Children.Add(task);
 		}
 
+		/// <summary>
+		/// Add a dependency to the task.  The dependency's owner is automatically set
+		/// to the current task.
+		/// </summary>
+		/// <param name="dependency"></param>
 		public void AddDependency(IDependency dependency)
 		{
 			dependency.Owner = this;
