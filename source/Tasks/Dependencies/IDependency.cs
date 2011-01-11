@@ -6,6 +6,9 @@ using WorkingWeek;
 
 namespace Tasks
 {
+	/// <summary>
+	/// List of all possible dependency priorities.
+	/// </summary>
 	public enum DependencyPriority
 	{
 		Low = 0,
@@ -13,6 +16,9 @@ namespace Tasks
 		High = 2
 	}
 
+	/// <summary>
+	/// Interface defining dependency-like objects.
+	/// </summary>
 	public interface IDependency
 	{
 		DependencyPriority Priority { get; }
