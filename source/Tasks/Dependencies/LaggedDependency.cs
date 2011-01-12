@@ -5,6 +5,10 @@ using System.Text;
 
 namespace Tasks
 {
+	/// <summary>
+	/// Base class for dependencies that include a lag time between the start/end of one task
+	/// and the start/end of the next.
+	/// </summary>
 	public abstract class LaggedDependency : Dependency
 	{
 		#region Properties
