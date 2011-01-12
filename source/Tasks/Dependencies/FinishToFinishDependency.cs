@@ -11,7 +11,7 @@ namespace Tasks
 	/// and task B (owner) will end simultaneously.  This is a low priority
 	/// dependency.
 	/// </summary>
-	public class FinishToFinishDependency : Dependency
+	public class FinishToFinishDependency : LaggedDependency
 	{
 		#region Constructors
 

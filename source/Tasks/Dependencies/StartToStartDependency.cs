@@ -11,7 +11,7 @@ namespace Tasks
 	/// and task B (owner) will start simultaneously.  This is a low priority
 	/// dependency.
 	/// </summary>
-	public class StartToStartDependency : Dependency
+	public class StartToStartDependency : LaggedDependency
 	{
 		#region Constructors
 

@@ -29,7 +29,7 @@ namespace Tasks
 		/// </summary>
 		/// <param name="startDate">The date on which the dependency will start.</param>
 		public FixedStartDependency(DateTime startDate)
-			: base(null, DependencyPriority.High, new TimeSpan(0))
+			: base(null, DependencyPriority.High)
 		{
 			mStartDate = startDate;
 		}

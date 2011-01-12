@@ -11,7 +11,7 @@ namespace Tasks
 	/// will start when task A (dependent on) ends.  This is a low priority
 	/// dependency.
 	/// </summary>
-	public class FinishToStartDependency : Dependency
+	public class FinishToStartDependency : LaggedDependency
 	{
 		#region Constructors
 

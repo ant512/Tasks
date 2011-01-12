@@ -29,7 +29,7 @@ namespace Tasks
 		/// </summary>
 		/// <param name="endDate">The date on which the dependency will end.</param>
 		public FixedFinishDependency(DateTime endDate)
-			: base(null, DependencyPriority.High, new TimeSpan(0))
+			: base(null, DependencyPriority.High)
 		{
 			mEndDate = endDate;
 		}

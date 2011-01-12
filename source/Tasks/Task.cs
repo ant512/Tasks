@@ -158,6 +158,12 @@ namespace Tasks
 
 		#region Constructors
 
+		/// <summary>
+		/// Initializes a new instance of the Task class.
+		/// </summary>
+		/// <param name="name">Name of the task.</param>
+		/// <param name="duration">Duration of the task as expressed as a working period.</param>
+		/// <param name="order">The order number of the task used for ordering tasks when displayed.</param>
 		public Task(string name, TimeSpan duration, int order)
 		{
 			Name = name;

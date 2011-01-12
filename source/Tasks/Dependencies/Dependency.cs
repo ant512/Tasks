@@ -28,14 +28,6 @@ namespace Tasks
 		/// </summary>
 		public ITask DependentOn { get; private set; }
 
-		/// <summary>
-		/// Gets or sets the lag time of the dependency.  Lag is an optional period
-		/// that is added to the dependency to adjust the calculated date of the
-		/// dependent task.  For example, a task could start one hour after another
-		/// task ends by setting the lag to an hour.
-		/// </summary>
-		public TimeSpan Lag { get; set; }
-
 		#endregion
 
 		#region Methods
@@ -57,12 +49,10 @@ namespace Tasks
 		/// </summary>
 		/// <param name="dependentOn">The task on which the dependency is dependent.</param>
 		/// <param name="priority">The priority of the dependency.</param>
-		/// <param name="lag">The lag of the dependency.</param>
-		public Dependency(ITask dependentOn, DependencyPriority priority, TimeSpan lag)
+		public Dependency(ITask dependentOn, DependencyPriority priority)
 		{
 			DependentOn = dependentOn;
 			Priority = priority;
-			Lag = lag;
 		}
 
 		#endregion
