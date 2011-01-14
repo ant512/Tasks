@@ -189,6 +189,11 @@ namespace Tasks
 		/// <param name="task">The task to add as a child.</param>
 		public void AddChild(ITask task)
 		{
+			if (task.IsAncestorOf(this))
+			{
+				throw new ArgumentException("Tasks cannot contain their own ancestors as children.");
+			}
+
 			task.Parent = this;
 			Children.Add(task);
 		}
@@ -200,8 +205,43 @@ namespace Tasks
 		/// <param name="dependency"></param>
 		public void AddDependency(IDependency dependency)
 		{
+			if (dependency.DependentOn != null)
+			{
+				if (IsAncestorOf(dependency.DependentOn))
+				{
+					throw new ArgumentException("Tasks cannot be dependent on their children or successors.");
+				}
+
+				if (dependency.DependentOn.IsAncestorOf(this))
+				{
+					throw new ArgumentException("Child tasks cannot be dependent on their ancestors.");
+				}
+			}
+
 			dependency.Owner = this;
 			Dependencies.Add(dependency);
+		}
+
+		/// <summary>
+		/// Check if this task is an ancestor of the specified task.
+		/// </summary>
+		/// <param name="task">Task to check.</param>
+		/// <returns>True if this task is an ancestor of the specified task..</returns>
+		public bool IsAncestorOf(ITask task)
+		{
+			var ancestor = task.Parent;
+
+			while (ancestor != null)
+			{
+				if (ancestor == this)
+				{
+					return true;
+				}
+
+				ancestor = ancestor.Parent;
+			}
+
+			return false;
 		}
 
 		/// <summary>

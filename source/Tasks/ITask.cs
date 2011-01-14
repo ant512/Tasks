@@ -68,6 +68,13 @@ namespace Tasks
 		#region Methods
 
 		/// <summary>
+		/// Check if the specified task is an ancestor of this task.
+		/// </summary>
+		/// <param name="task">Task to check.</param>
+		/// <returns>True if the specified task is an ancestor of this task.</returns>
+		bool IsAncestorOf(ITask task);
+
+		/// <summary>
 		/// Recalculates the dates of the task based on the start dates of its
 		/// dependencies.  The earliest date that the task will use as its start date
 		/// (in the situation where it has no dependencies, for example) is the value
