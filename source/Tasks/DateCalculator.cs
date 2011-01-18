@@ -189,7 +189,7 @@ namespace Tasks
 			// is shorter than the flat list
 			if (sortedTasks.Count < unsortedTasks.Count)
 			{
-				throw new Exception("Cycle detected in task dependencies.");
+				throw new ArgumentException("Cycle detected in task dependencies.");
 			}
 
 			return sortedTasks;
