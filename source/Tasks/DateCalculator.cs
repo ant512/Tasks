@@ -185,6 +185,13 @@ namespace Tasks
 				}
 			}
 
+			// If there is a cycle in the data, we will end up with a sorted list that
+			// is shorter than the flat list
+			if (sortedTasks.Count < unsortedTasks.Count)
+			{
+				throw new Exception("Cycle detected in task dependencies.");
+			}
+
 			return sortedTasks;
 		}
 
