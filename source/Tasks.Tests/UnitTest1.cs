@@ -273,8 +273,6 @@ namespace Tasks.Tests
 		[TestMethod]
 		public void TestTaskAncestorProtection()
 		{
-			var project = NewProject();
-
 			var task1 = new Task("Task 1", new TimeSpan(10, 10, 10));
 			var phase = new Task("Phase 1");
 
@@ -286,6 +284,92 @@ namespace Tasks.Tests
 				Assert.Fail("Should not be possible for parents to own their own child tasks.");
 			}
 			catch (ArgumentException)
+			{
+			}
+		}
+
+		[TestMethod]
+		public void TestTaskChildDependencyProtection()
+		{
+			var task1 = new Task("Task 1", new TimeSpan(10, 10, 10));
+			var phase = new Task("Phase 1");
+
+			phase.AddChild(task1);
+
+			try
+			{
+				phase.AddDependency(new StartToStartDependency(task1));
+				Assert.Fail("Should not be possible for parents to be dependent on their own child tasks.");
+			}
+			catch (ArgumentException)
+			{
+			}
+		}
+
+		[TestMethod]
+		public void TestTaskAncestorDependencyProtection()
+		{
+			var task1 = new Task("Task 1", new TimeSpan(10, 10, 10));
+			var phase = new Task("Phase 1");
+
+			phase.AddChild(task1);
+
+			try
+			{
+				task1.AddDependency(new StartToStartDependency(phase));
+				Assert.Fail("Should not be possible for children to be dependent on their parents.");
+			}
+			catch (ArgumentException)
+			{
+			}
+		}
+
+		[TestMethod]
+		public void TestTaskAncestorDetection()
+		{
+			var task1 = new Task("Task 1", new TimeSpan(10, 10, 10));
+			var phase = new Task("Phase 1");
+
+			phase.AddChild(task1);
+
+			Assert.IsTrue(phase.IsAncestorOf(task1));
+			Assert.IsFalse(task1.IsAncestorOf(phase));
+		}
+
+		[TestMethod]
+		public void TestTaskDependencyList()
+		{
+			var task1 = new Task("Task 1", new TimeSpan(10, 10, 10));
+			var task2 = new Task("Task 2", new TimeSpan(10, 10, 10));
+			var task3 = new Task("Task 3", new TimeSpan(10, 10, 10));
+			var task4 = new Task("Task 4", new TimeSpan(10, 10, 10));
+			var phase = new Task("Phase 1");
+
+			phase.AddChild(task1);
+			phase.AddChild(task2);
+			phase.AddChild(task3);
+
+			task4.AddDependency(new StartToStartDependency(phase));
+
+			var dependencies = task4.GetAllTaskDependencies();
+
+			Assert.AreEqual(3, dependencies.Count);
+		}
+
+		[TestMethod]
+		public void TestPhaseDurationSet()
+		{
+			var task1 = new Task("Task 1", new TimeSpan(10, 10, 10));
+			var phase = new Task("Phase 1");
+
+			phase.AddChild(task1);
+
+			try
+			{
+				phase.Duration = new TimeSpan(10);
+				Assert.Fail("Should not be able to set the duration of tasks with children.");
+			}
+			catch (InvalidOperationException)
 			{
 			}
 		}

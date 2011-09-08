@@ -134,6 +134,10 @@ namespace Tasks
 			}
 			set
 			{
+				if (HasChildren) {
+					throw new InvalidOperationException("Cannot manually set the duration of tasks with children.");
+				}
+
 				mDuration = value;
 			}
 		}
@@ -159,11 +163,11 @@ namespace Tasks
 		/// <param name="duration">Duration of the task as expressed as a working period.</param>
 		public Task(string name, TimeSpan duration)
 		{
-			Name = name;
-			Duration = duration;
-
 			Children = new List<ITask>();
 			Dependencies = new List<IDependency>();
+	
+			Name = name;
+			Duration = duration;
 
 			Parent = null;
 			mStartDate = DateTime.Now;
