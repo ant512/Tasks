@@ -5,7 +5,7 @@ using System.Text;
 using Tasks;
 using WorkingWeek;
 
-namespace ConsoleApp
+namespace Tasks.ConsoleApp
 {
 	class Program
 	{
