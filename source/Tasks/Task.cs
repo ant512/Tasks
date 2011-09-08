@@ -346,7 +346,7 @@ namespace Tasks
 			// Work out end date using working week.  We subtract 1 from the duration
 			// to ensure that, should the end date be at the end of a working shift,
 			// we retrieve the correct shift from the working week later
-			mEndDate = week.DateAdd(mStartDate, mDuration.Subtract(new TimeSpan(1)));
+			mEndDate = week.DateAdd(mStartDate, mDuration.Subtract(new TimeSpan(0, 0, 0, 0, 1)));
 
 			// Ensure that the end date falls within a working shift
 			mEndDate = week.AscendingShifts(mEndDate, DateTime.MaxValue).ElementAt(0).StartTime;
