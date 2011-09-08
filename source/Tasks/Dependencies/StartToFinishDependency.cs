@@ -47,7 +47,7 @@ namespace Tasks
 		/// <returns>The start date of the dependency.</returns>
 		public override DateTime StartDate(Week week)
 		{
-			return week.DateAdd(DependentOn.StartDate, Owner.Duration.Add(Lag));
+			return week.DateAdd(DependentOn.StartDate, Owner.Duration.Negate().Add(Lag));
 		}
 
 		#endregion

@@ -115,6 +115,28 @@ namespace Tasks.Tests
 		}
 
 		[TestMethod]
+		public void TestNegativeLag()
+		{
+			var project = NewProject();
+
+			var task1 = new Task("Task 1", new TimeSpan(10, 10, 10));
+			var task2 = new Task("Task 2", new TimeSpan(12, 10, 10));
+			var phase = new Task("Phase 1");
+
+			task2.AddDependency(new FinishToStartDependency(task1, new TimeSpan(-1, 0, 0)));
+
+			phase.AddChild(task1);
+			phase.AddChild(task2);
+
+			project.AddTask(phase);
+
+			project.RecalculateDates();
+
+			Assert.AreEqual(new DateTime(2011, 09, 08, 10, 0, 0, 0), phase.StartDate);
+			Assert.AreEqual(new DateTime(2011, 09, 13, 10, 20, 20, 0), phase.EndDate);
+		}
+
+		[TestMethod]
 		public void TestIneffectualFinishToFinishDependency()
 		{
 			var project = NewProject();
@@ -226,15 +248,16 @@ namespace Tasks.Tests
 			Assert.AreEqual(task1.StartDate, task2.StartDate);
 		}
 
+		[TestMethod]
 		public void TestStartToFinishDependency()
 		{
 			var project = NewProject();
 
-			var task1 = new Task("Task 1", new TimeSpan(10, 10, 10));
-			var task2 = new Task("Task 2", new TimeSpan(12, 10, 10));
+			var task1 = new Task("Task 1", new TimeSpan(1, 0, 0));
+			var task2 = new Task("Task 2", new TimeSpan(1, 0, 0));
 			var phase = new Task("Phase 1");
 
-			task1.AddDependency(new FixedStartDependency(new DateTime(2011, 09, 12, 9, 45, 0)));
+			task1.AddDependency(new FixedStartDependency(new DateTime(2011, 09, 14, 9, 45, 0)));
 			task2.AddDependency(new StartToFinishDependency(task1));
 
 			phase.AddChild(task1);
@@ -245,6 +268,26 @@ namespace Tasks.Tests
 			project.RecalculateDates();
 
 			Assert.AreEqual(task1.StartDate, task2.EndDate);
+		}
+
+		[TestMethod]
+		public void TestTaskAncestorProtection()
+		{
+			var project = NewProject();
+
+			var task1 = new Task("Task 1", new TimeSpan(10, 10, 10));
+			var phase = new Task("Phase 1");
+
+			phase.AddChild(task1);
+
+			try
+			{
+				task1.AddChild(phase);
+				Assert.Fail("Should not be possible for parents to own their own child tasks.");
+			}
+			catch (ArgumentException)
+			{
+			}
 		}
 	}
 }
