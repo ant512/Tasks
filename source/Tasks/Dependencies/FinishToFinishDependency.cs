@@ -25,6 +25,16 @@ namespace Tasks
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the FinishToFinishDependency class.  No
+		/// lag time is set.
+		/// </summary>
+		/// <param name="dependentOn">The task on which the dependency is dependent.</param>
+		public FinishToFinishDependency(ITask dependentOn)
+			: base(dependentOn, DependencyPriority.Low, new TimeSpan(0))
+		{
+		}
+
 		#endregion
 
 		#region Methods

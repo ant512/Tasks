@@ -55,14 +55,14 @@ namespace Tasks.ConsoleApp
 			task2.AddChild(task2_2);
 			task2.AddChild(task2_3);
 
-			task1_2.AddDependency(new Tasks.StartToStartDependency(task1_1, new TimeSpan(0)));
-			task1_3.AddDependency(new Tasks.FinishToStartDependency(task1_1, new TimeSpan(0)));
-			task1_4.AddDependency(new Tasks.StartToStartDependency(task1_3, new TimeSpan(0)));
-			task1_5.AddDependency(new Tasks.FinishToStartDependency(task1_3, new TimeSpan(0)));
-			task1_5.AddDependency(new Tasks.StartToStartDependency(task1_4, new TimeSpan(0)));
-			task1_6.AddDependency(new Tasks.FinishToStartDependency(task1_5, new TimeSpan(0)));
+			task1_2.AddDependency(new Tasks.StartToStartDependency(task1_1));
+			task1_3.AddDependency(new Tasks.FinishToStartDependency(task1_1));
+			task1_4.AddDependency(new Tasks.StartToStartDependency(task1_3));
+			task1_5.AddDependency(new Tasks.FinishToStartDependency(task1_3));
+			task1_5.AddDependency(new Tasks.StartToStartDependency(task1_4));
+			task1_6.AddDependency(new Tasks.FinishToStartDependency(task1_5));
 
-			task2_2.AddDependency(new Tasks.FinishToStartDependency(task2_1, new TimeSpan(0)));
+			task2_2.AddDependency(new Tasks.FinishToStartDependency(task2_1));
 			task2_3.AddDependency(new Tasks.FixedFinishDependency(new DateTime(2011, 1, 31, 0, 0, 0, 0)));
 
 			var project = new Project("Test Project", new DateTime(2011, 1, 4, 9, 30, 0, 0), week);

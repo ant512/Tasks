@@ -69,5 +69,29 @@ namespace Tasks.Tests
 			Assert.AreEqual(new DateTime(2011, 09, 08, 10, 0, 0, 0), phase.StartDate);
 			Assert.AreEqual(new DateTime(2011, 09, 09, 16, 10, 10, 0), phase.EndDate);
 		}
+
+		[TestMethod]
+		public void TestDependentTaskStartEndDates()
+		{
+			// Anything more complex than a single task has to be part of a project for its
+			// dates to work correctly
+			var project = NewProject();
+
+			var task1 = new Task("Task 1", new TimeSpan(10, 10, 10));
+			var task2 = new Task("Task 2", new TimeSpan(12, 10, 10));
+			var phase = new Task("Phase 1");
+
+			task2.AddDependency(new FinishToStartDependency(task1));
+
+			phase.AddChild(task1);
+			phase.AddChild(task2);
+
+			project.AddTask(phase);
+
+			project.RecalculateDates();
+
+			Assert.AreEqual(new DateTime(2011, 09, 08, 10, 0, 0, 0), phase.StartDate);
+			Assert.AreEqual(new DateTime(2011, 09, 13, 11, 20, 20, 0), phase.EndDate);
+		}
 	}
 }
