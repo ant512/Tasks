@@ -139,12 +139,6 @@ namespace Tasks
 		}
 
 		/// <summary>
-		/// Gets the order number of the task.  This should be used to order the tasks when
-		/// they are displayed.
-		/// </summary>
-		public int Order { get; set; }
-
-		/// <summary>
 		/// Gets or sets the task's parent task.  If null, the task has no parent.
 		/// </summary>
 		public ITask Parent { get; set; }
@@ -163,12 +157,10 @@ namespace Tasks
 		/// </summary>
 		/// <param name="name">Name of the task.</param>
 		/// <param name="duration">Duration of the task as expressed as a working period.</param>
-		/// <param name="order">The order number of the task used for ordering tasks when displayed.</param>
-		public Task(string name, TimeSpan duration, int order)
+		public Task(string name, TimeSpan duration)
 		{
 			Name = name;
 			Duration = duration;
-			Order = order;
 
 			Children = new List<ITask>();
 			Dependencies = new List<IDependency>();
@@ -176,6 +168,16 @@ namespace Tasks
 			Parent = null;
 			mStartDate = DateTime.Now;
 			mEndDate = DateTime.Now;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the Task class with duration set to 0.
+		/// Useful when creating phases.
+		/// </summary>
+		/// <param name="name">Name of the task.</param>
+		public Task(string name)
+			: this(name, new TimeSpan(0))
+		{
 		}
 
 		#endregion

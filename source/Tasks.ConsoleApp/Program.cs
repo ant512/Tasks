@@ -30,19 +30,19 @@ namespace Tasks.ConsoleApp
 			week.AddShift(DayOfWeek.Friday, 13, 30, 0, 0, new TimeSpan(0, 4, 0, 0, 0));
 
 
-			var task1 = new Tasks.Task("Research and report", new TimeSpan(0), 1);
-			var task2 = new Tasks.Task("Phase 2", new TimeSpan(0), 2);
+			var task1 = new Tasks.Task("Research and report");
+			var task2 = new Tasks.Task("Phase 2");
 
-			var task1_1 = new Tasks.Task("Initial Meeting", new TimeSpan(4 * 7, 0, 0), 1);
-			var task1_2 = new Tasks.Task("Project Management", new TimeSpan(10 * 7, 0, 0), 2);
-			var task1_3 = new Tasks.Task("Research", new TimeSpan(10 * 7, 0, 0), 3);
-			var task1_4 = new Tasks.Task("Review documentation", new TimeSpan(4 * 7, 0, 0), 4);
-			var task1_5 = new Tasks.Task("Draft Report", new TimeSpan(3 * 7, 0, 0), 5);
-			var task1_6 = new Tasks.Task("Final Report", new TimeSpan(1 * 7, 0, 0), 6);
+			var task1_1 = new Tasks.Task("Initial Meeting", new TimeSpan(4 * 7, 0, 0));
+			var task1_2 = new Tasks.Task("Project Management", new TimeSpan(10 * 7, 0, 0));
+			var task1_3 = new Tasks.Task("Research", new TimeSpan(10 * 7, 0, 0));
+			var task1_4 = new Tasks.Task("Review documentation", new TimeSpan(4 * 7, 0, 0));
+			var task1_5 = new Tasks.Task("Draft Report", new TimeSpan(3 * 7, 0, 0));
+			var task1_6 = new Tasks.Task("Final Report", new TimeSpan(1 * 7, 0, 0));
 
-			var task2_1 = new Tasks.Task("Task 1", new TimeSpan(1 * 7, 0, 0), 1);
-			var task2_2 = new Tasks.Task("Task 2", new TimeSpan(1 * 7, 0, 0), 2);
-			var task2_3 = new Tasks.Task("Task 3", new TimeSpan(1 * 7, 0, 0), 3);
+			var task2_1 = new Tasks.Task("Task 1", new TimeSpan(1 * 7, 0, 0));
+			var task2_2 = new Tasks.Task("Task 2", new TimeSpan(1 * 7, 0, 0));
+			var task2_3 = new Tasks.Task("Task 3", new TimeSpan(1 * 7, 0, 0));
 
 			task1.AddChild(task1_1);
 			task1.AddChild(task1_2);

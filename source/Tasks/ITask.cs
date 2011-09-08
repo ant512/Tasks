@@ -39,11 +39,6 @@ namespace Tasks
 		TimeSpan Duration { get; set; }
 
 		/// <summary>
-		/// Gets or sets the order of the tasks.
-		/// </summary>
-		int Order { get; set; }
-
-		/// <summary>
 		/// Gets or sets the parent of the task.
 		/// </summary>
 		ITask Parent { get; set; }
