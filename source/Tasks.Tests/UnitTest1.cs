@@ -73,8 +73,6 @@ namespace Tasks.Tests
 		[TestMethod]
 		public void TestDependentTaskStartEndDates()
 		{
-			// Anything more complex than a single task has to be part of a project for its
-			// dates to work correctly
 			var project = NewProject();
 
 			var task1 = new Task("Task 1", new TimeSpan(10, 10, 10));
@@ -97,8 +95,6 @@ namespace Tasks.Tests
 		[TestMethod]
 		public void TestDependentLaggedTaskStartEndDates()
 		{
-			// Anything more complex than a single task has to be part of a project for its
-			// dates to work correctly
 			var project = NewProject();
 
 			var task1 = new Task("Task 1", new TimeSpan(10, 10, 10));
@@ -116,6 +112,75 @@ namespace Tasks.Tests
 
 			Assert.AreEqual(new DateTime(2011, 09, 08, 10, 0, 0, 0), phase.StartDate);
 			Assert.AreEqual(new DateTime(2011, 09, 13, 12, 20, 20, 0), phase.EndDate);
+		}
+
+		[TestMethod]
+		public void TestIneffectualFinishToFinishDependency()
+		{
+			var project = NewProject();
+
+			var task1 = new Task("Task 1", new TimeSpan(10, 10, 10));
+			var task2 = new Task("Task 2", new TimeSpan(12, 10, 10));
+			var phase = new Task("Phase 1");
+
+			task2.AddDependency(new FinishToFinishDependency(task1));
+
+			phase.AddChild(task1);
+			phase.AddChild(task2);
+
+			project.AddTask(phase);
+
+			project.RecalculateDates();
+
+			// Since task1 starts at the beginning of the project and task2 is longer,
+			// the dependency can have no effect - task2 cannot start before the beginning
+			// of the project and task1 cannot be moved by the dependency.  This is
+			// expected behaviour.
+			Assert.IsTrue(task1.EndDate < task2.EndDate);
+		}
+
+		[TestMethod]
+		public void TestFinishToFinishDependency()
+		{
+			var project = NewProject();
+
+			var task1 = new Task("Task 1", new TimeSpan(10, 10, 10));
+			var task2 = new Task("Task 2", new TimeSpan(12, 10, 10));
+			var phase = new Task("Phase 1");
+
+			task1.AddDependency(new FinishToFinishDependency(task2));
+
+			phase.AddChild(task1);
+			phase.AddChild(task2);
+
+			project.AddTask(phase);
+
+			project.RecalculateDates();
+
+			Assert.AreEqual(task1.EndDate, task2.EndDate);
+		}
+
+		[TestMethod]
+		public void TestFixedStartDependency()
+		{
+			var project = NewProject();
+
+			var task1 = new Task("Task 1", new TimeSpan(10, 10, 10));
+			var task2 = new Task("Task 2", new TimeSpan(12, 10, 10));
+			var phase = new Task("Phase 1");
+
+			task1.AddDependency(new FixedStartDependency(new DateTime(2011, 09, 10)));
+
+			phase.AddChild(task1);
+			phase.AddChild(task2);
+
+			project.AddTask(phase);
+
+			project.RecalculateDates();
+
+			// Task starts ASAP after 10/09/2011, based on the working week.  10th
+			// and 11th are Sat and Sun, so task starts at 9:30 on Monday 12th.
+			Assert.AreEqual(new DateTime(2011, 09, 12, 9, 30, 0), task1.StartDate);
 		}
 	}
 }
