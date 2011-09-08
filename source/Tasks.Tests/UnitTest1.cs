@@ -182,5 +182,69 @@ namespace Tasks.Tests
 			// and 11th are Sat and Sun, so task starts at 9:30 on Monday 12th.
 			Assert.AreEqual(new DateTime(2011, 09, 12, 9, 30, 0), task1.StartDate);
 		}
+
+		[TestMethod]
+		public void TestFixedFinishDependency()
+		{
+			var project = NewProject();
+
+			var task1 = new Task("Task 1", new TimeSpan(10, 10, 10));
+			var task2 = new Task("Task 2", new TimeSpan(12, 10, 10));
+			var phase = new Task("Phase 1");
+
+			task1.AddDependency(new FixedFinishDependency(new DateTime(2011, 09, 12, 9, 45, 0)));
+
+			phase.AddChild(task1);
+			phase.AddChild(task2);
+
+			project.AddTask(phase);
+
+			project.RecalculateDates();
+
+			Assert.AreEqual(new DateTime(2011, 09, 12, 9, 45, 0), task1.EndDate);
+		}
+
+		[TestMethod]
+		public void TestStartToStartDependency()
+		{
+			var project = NewProject();
+
+			var task1 = new Task("Task 1", new TimeSpan(10, 10, 10));
+			var task2 = new Task("Task 2", new TimeSpan(12, 10, 10));
+			var phase = new Task("Phase 1");
+
+			task1.AddDependency(new FixedStartDependency(new DateTime(2011, 09, 12, 9, 45, 0)));
+			task2.AddDependency(new StartToStartDependency(task1));
+
+			phase.AddChild(task1);
+			phase.AddChild(task2);
+
+			project.AddTask(phase);
+
+			project.RecalculateDates();
+
+			Assert.AreEqual(task1.StartDate, task2.StartDate);
+		}
+
+		public void TestStartToFinishDependency()
+		{
+			var project = NewProject();
+
+			var task1 = new Task("Task 1", new TimeSpan(10, 10, 10));
+			var task2 = new Task("Task 2", new TimeSpan(12, 10, 10));
+			var phase = new Task("Phase 1");
+
+			task1.AddDependency(new FixedStartDependency(new DateTime(2011, 09, 12, 9, 45, 0)));
+			task2.AddDependency(new StartToFinishDependency(task1));
+
+			phase.AddChild(task1);
+			phase.AddChild(task2);
+
+			project.AddTask(phase);
+
+			project.RecalculateDates();
+
+			Assert.AreEqual(task1.StartDate, task2.EndDate);
+		}
 	}
 }
