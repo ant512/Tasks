@@ -31,7 +31,7 @@ namespace Tasks
 		/// <summary>
 		/// Gets the list of the task's dependencies.
 		/// </summary>
-		List<IDependency> Dependencies { get; }
+		IList<IDependency> Dependencies { get; }
 
 		/// <summary>
 		/// Gets or sets the duration of the task.
@@ -46,7 +46,7 @@ namespace Tasks
 		/// <summary>
 		/// Gets the list of the task's children.
 		/// </summary>
-		List<ITask> Children { get; }
+		IList<ITask> Children { get; }
 
 		/// <summary>
 		/// Gets a value indicating whether or not the task has children.
@@ -88,13 +88,15 @@ namespace Tasks
 		List<ITask> GetAllTaskDependencies();
 
 		/// <summary>
-		/// Add a child to the task.
+		/// Add a child to the task.  The new child's parent is automatically set to the
+		/// current task.
 		/// </summary>
-		/// <param name="child">The child to add.</param>
+		/// <param name="task">The task to add as a child.</param>
 		void AddChild(ITask child);
 
 		/// <summary>
-		/// Add a dependency to the task.
+		/// Add a dependency to the task.  The dependency's owner is automatically set
+		/// to the current task.
 		/// </summary>
 		/// <param name="dependency">The dependency to add.</param>
 		void AddDependency(IDependency dependency);

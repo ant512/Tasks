@@ -30,6 +30,16 @@ namespace Tasks
 		/// </summary>
 		private TimeSpan mDuration;
 
+		/// <summary>
+		/// The task's dependencies.
+		/// </summary>
+		private List<IDependency> mDependencies;
+
+		/// <summary>
+		/// The tasks's children.
+		/// </summary>
+		private List<ITask> mChildren;
+
 		#endregion
 
 		#region Properties
@@ -114,7 +124,9 @@ namespace Tasks
 		/// <summary>
 		/// Gets the list of dependencies.
 		/// </summary>
-		public List<IDependency> Dependencies { get; private set; }
+		public IList<IDependency> Dependencies {
+			get { return mDependencies.AsReadOnly(); }
+		}
 
 		/// <summary>
 		/// Gets or sets the duration of the task.  This represents the working time. 
@@ -150,7 +162,10 @@ namespace Tasks
 		/// <summary>
 		/// Gets the list of the task's children.
 		/// </summary>
-		public List<ITask> Children { get; private set; }
+		public IList<ITask> Children
+		{
+			get { return mChildren.AsReadOnly(); }
+		}
 
 		#endregion
 
@@ -163,8 +178,8 @@ namespace Tasks
 		/// <param name="duration">Duration of the task as expressed as a working period.</param>
 		public Task(string name, TimeSpan duration)
 		{
-			Children = new List<ITask>();
-			Dependencies = new List<IDependency>();
+			mChildren = new List<ITask>();
+			mDependencies = new List<IDependency>();
 	
 			Name = name;
 			Duration = duration;
@@ -201,14 +216,14 @@ namespace Tasks
 			}
 
 			task.Parent = this;
-			Children.Add(task);
+			mChildren.Add(task);
 		}
 
 		/// <summary>
 		/// Add a dependency to the task.  The dependency's owner is automatically set
 		/// to the current task.
 		/// </summary>
-		/// <param name="dependency"></param>
+		/// <param name="dependency">The dependency to add.</param>
 		public void AddDependency(IDependency dependency)
 		{
 			if (dependency.DependentOn != null)
@@ -225,7 +240,7 @@ namespace Tasks
 			}
 
 			dependency.Owner = this;
-			Dependencies.Add(dependency);
+			mDependencies.Add(dependency);
 		}
 
 		/// <summary>
