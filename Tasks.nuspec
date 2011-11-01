@@ -2,13 +2,13 @@
 <package >
   <metadata>
     <id>Tasks</id>
-    <version>1.0</version>
+    <version>1.1</version>
     <authors>ant512</authors>
     <owners>ant512</owners>
     <licenseUrl>https://bitbucket.org/ant512/tasks/src/tip/Licence.txt</licenseUrl>
     <projectUrl>https://bitbucket.org/ant512/tasks</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Represents tasks and dependencies and performs date calculations on them.</description>
+    <description>Library for calculating start/end dates in project task/dependency structures (as visualised by Gantt charts).</description>
     <releaseNotes>First package release.</releaseNotes>
     <copyright>Copyright 2011</copyright>
     <tags>gantt project-management tasks phases</tags>
