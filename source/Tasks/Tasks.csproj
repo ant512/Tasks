@@ -41,7 +41,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WorkingWeek">
-      <HintPath>..\..\lib\WorkingWeek.dll</HintPath>
+      <HintPath>..\..\packages\WorkingWeek.1.0\lib\net40\WorkingWeek.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

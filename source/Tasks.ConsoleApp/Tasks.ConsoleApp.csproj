@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="WorkingWeek, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\WorkingWeek.dll</HintPath>
+      <HintPath>..\..\packages\WorkingWeek.1.0\lib\net40\WorkingWeek.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

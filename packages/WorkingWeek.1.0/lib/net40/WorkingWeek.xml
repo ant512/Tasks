@@ -4,6 +4,122 @@
         <name>WorkingWeek</name>
     </assembly>
     <members>
+        <member name="T:WorkingWeek.Week">
+            <summary>
+            Represents a working week.
+            </summary>
+        </member>
+        <member name="F:WorkingWeek.Week.mDays">
+            <summary>
+            Array of days in the week.
+            </summary>
+        </member>
+        <member name="M:WorkingWeek.Week.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:WorkingWeek.Week.ShiftAdded(WorkingWeek.Shift)">
+            <summary>
+            Called when a new shift is added to one of the week's days.  Increases the
+            duraton of the week by the duration of the shift.
+            </summary>
+            <param name="shift">The added shift.</param>
+        </member>
+        <member name="M:WorkingWeek.Week.ShiftRemoved(WorkingWeek.Shift)">
+            <summary>
+            Called when a shift is removed from one of the week's days.  Reduces the
+            duration of the week by the duration of the shift.
+            </summary>
+            <param name="shift">The removed shift.</param>
+        </member>
+        <member name="M:WorkingWeek.Week.GetDay(System.DayOfWeek)">
+            <summary>
+            Get a day by its DayOfWeek value.
+            </summary>
+            <param name="dayOfWeek">Day of the week to retrieve.</param>
+            <returns>The specified day of the week.</returns>
+        </member>
+        <member name="M:WorkingWeek.Week.AddShift(System.DayOfWeek,System.Double,System.Double,System.Double,System.Double,System.TimeSpan)">
+            <summary>
+            Add a new shift to the specified day.  Shifts cannot overlap.
+            </summary>
+            <param name="dayOfWeek">Day on which to add the shift.</param>
+            <param name="hour">Start hour of the shift.</param>
+            <param name="minute">Start minute of the shift.</param>
+            <param name="second">Start second of the shift.</param>
+            <param name="millisecond">Start millisecond of the shift.</param>
+            <param name="duration">Duration of the shift.</param>
+        </member>
+        <member name="M:WorkingWeek.Week.RemoveShift(System.DayOfWeek,System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Remove the shift with the specified start time, if one exists.
+            </summary>
+            <param name="dayOfWeek">Day from which to remove the shift.</param>
+            <param name="hour">Hour at which the shift starts.</param>
+            <param name="minute">Minute at which the shift starts.</param>
+            <param name="second">Second at which the shift starts.</param>
+            <param name="millisecond">Millisecond at which the shift starts.</param>
+        </member>
+        <member name="M:WorkingWeek.Week.IsWorking(System.DateTime)">
+            <summary>
+            Check if the given date/time falls within a shift.
+            </summary>
+            <param name="date">The date to check.</param>
+            <returns>True if the date falls within a shift.</returns>
+        </member>
+        <member name="M:WorkingWeek.Week.IsWorking(System.DayOfWeek)">
+            <summary>
+            Check if the given day is a working day.
+            </summary>
+            <param name="dayOfWeek"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WorkingWeek.Week.AscendingShifts(System.DateTime,System.DateTime)">
+            <summary>
+            Custom iterator that produces each shift between the two dates.  Enter Date.MaxValue as
+            the end date to produce an endless list of shifts.
+            </summary>
+            <param name="startDate">The date to start from.</param>
+            <param name="endDate">The date to end at.</param>
+            <returns>A list of shifts, in ascending order, from startDate to endDate.</returns>
+        </member>
+        <member name="M:WorkingWeek.Week.DescendingShifts(System.DateTime,System.DateTime)">
+            <summary>
+            Custom iterator that produces each shift between the two dates.  Enter Date.MinValue as
+            the end date to produce an endless list of shifts.
+            </summary>
+            <param name="startDate">The date to start from.</param>
+            <param name="endDate">The date to end at.</param>
+            <returns>A list of shifts, in descending order, from startDate to endDate.</returns>
+        </member>
+        <member name="M:WorkingWeek.Week.DateAdd(System.DateTime,System.TimeSpan)">
+            <summary>
+            Returns the date produced by adding the supplied duration to the supplied date, but only allowing
+            time to pass during working shifts.
+            </summary>
+            <param name="startDate">Start date.</param>
+            <param name="duration">Duration to add to the date.</param>
+            <returns>Date produced as a result of adding duration to start date, via way of the shifts in the calendar.</returns>
+        </member>
+        <member name="M:WorkingWeek.Week.DateDiff(System.DateTime,System.DateTime)">
+            <summary>
+            Find the difference, in working time, between the two dates.
+            </summary>
+            <param name="startDate">Start date.</param>
+            <param name="endDate">End date.</param>
+            <returns>The difference, in working time, between the two dates.</returns>
+        </member>
+        <member name="P:WorkingWeek.Week.Duration">
+            <summary>
+            Total duration of the work week.
+            </summary>
+        </member>
+        <member name="P:WorkingWeek.Week.ContainsShifts">
+            <summary>
+            Check if the week contains any shifts.
+            </summary>
+        </member>
         <member name="T:WorkingWeek.Shift">
             <summary>
             Immutable representation of a working shift, containing a start time and a duration.
@@ -151,122 +267,6 @@
             Signature for events fired when the shifts are altered.
             </summary>
             <param name="shift">The shift that was altered.</param>
-        </member>
-        <member name="T:WorkingWeek.Week">
-            <summary>
-            Represents a working week.
-            </summary>
-        </member>
-        <member name="F:WorkingWeek.Week.mDays">
-            <summary>
-            Array of days in the week.
-            </summary>
-        </member>
-        <member name="M:WorkingWeek.Week.#ctor">
-            <summary>
-            Constructor.
-            </summary>
-        </member>
-        <member name="M:WorkingWeek.Week.ShiftAdded(WorkingWeek.Shift)">
-            <summary>
-            Called when a new shift is added to one of the week's days.  Increases the
-            duraton of the week by the duration of the shift.
-            </summary>
-            <param name="shift">The added shift.</param>
-        </member>
-        <member name="M:WorkingWeek.Week.ShiftRemoved(WorkingWeek.Shift)">
-            <summary>
-            Called when a shift is removed from one of the week's days.  Reduces the
-            duration of the week by the duration of the shift.
-            </summary>
-            <param name="shift">The removed shift.</param>
-        </member>
-        <member name="M:WorkingWeek.Week.GetDay(System.DayOfWeek)">
-            <summary>
-            Get a day by its DayOfWeek value.
-            </summary>
-            <param name="dayOfWeek">Day of the week to retrieve.</param>
-            <returns>The specified day of the week.</returns>
-        </member>
-        <member name="M:WorkingWeek.Week.AddShift(System.DayOfWeek,System.Double,System.Double,System.Double,System.Double,System.TimeSpan)">
-            <summary>
-            Add a new shift to the specified day.  Shifts cannot overlap.
-            </summary>
-            <param name="dayOfWeek">Day on which to add the shift.</param>
-            <param name="hour">Start hour of the shift.</param>
-            <param name="minute">Start minute of the shift.</param>
-            <param name="second">Start second of the shift.</param>
-            <param name="millisecond">Start millisecond of the shift.</param>
-            <param name="duration">Duration of the shift.</param>
-        </member>
-        <member name="M:WorkingWeek.Week.RemoveShift(System.DayOfWeek,System.Double,System.Double,System.Double,System.Double)">
-            <summary>
-            Remove the shift with the specified start time, if one exists.
-            </summary>
-            <param name="dayOfWeek">Day from which to remove the shift.</param>
-            <param name="hour">Hour at which the shift starts.</param>
-            <param name="minute">Minute at which the shift starts.</param>
-            <param name="second">Second at which the shift starts.</param>
-            <param name="millisecond">Millisecond at which the shift starts.</param>
-        </member>
-        <member name="M:WorkingWeek.Week.IsWorking(System.DateTime)">
-            <summary>
-            Check if the given date/time falls within a shift.
-            </summary>
-            <param name="date">The date to check.</param>
-            <returns>True if the date falls within a shift.</returns>
-        </member>
-        <member name="M:WorkingWeek.Week.IsWorking(System.DayOfWeek)">
-            <summary>
-            Check if the given day is a working day.
-            </summary>
-            <param name="dayOfWeek"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WorkingWeek.Week.AscendingShifts(System.DateTime,System.DateTime)">
-            <summary>
-            Custom iterator that produces each shift between the two dates.  Enter Date.MaxValue as
-            the end date to produce an endless list of shifts.
-            </summary>
-            <param name="startDate">The date to start from.</param>
-            <param name="endDate">The date to end at.</param>
-            <returns>A list of shifts, in ascending order, from startDate to endDate.</returns>
-        </member>
-        <member name="M:WorkingWeek.Week.DescendingShifts(System.DateTime,System.DateTime)">
-            <summary>
-            Custom iterator that produces each shift between the two dates.  Enter Date.MinValue as
-            the end date to produce an endless list of shifts.
-            </summary>
-            <param name="startDate">The date to start from.</param>
-            <param name="endDate">The date to end at.</param>
-            <returns>A list of shifts, in descending order, from startDate to endDate.</returns>
-        </member>
-        <member name="M:WorkingWeek.Week.DateAdd(System.DateTime,System.TimeSpan)">
-            <summary>
-            Returns the date produced by adding the supplied duration to the supplied date, but only allowing
-            time to pass during working shifts.
-            </summary>
-            <param name="startDate">Start date.</param>
-            <param name="duration">Duration to add to the date.</param>
-            <returns>Date produced as a result of adding duration to start date, via way of the shifts in the calendar.</returns>
-        </member>
-        <member name="M:WorkingWeek.Week.DateDiff(System.DateTime,System.DateTime)">
-            <summary>
-            Find the difference, in working time, between the two dates.
-            </summary>
-            <param name="startDate">Start date.</param>
-            <param name="endDate">End date.</param>
-            <returns>The difference, in working time, between the two dates.</returns>
-        </member>
-        <member name="P:WorkingWeek.Week.Duration">
-            <summary>
-            Total duration of the work week.
-            </summary>
-        </member>
-        <member name="P:WorkingWeek.Week.ContainsShifts">
-            <summary>
-            Check if the week contains any shifts.
-            </summary>
         </member>
     </members>
 </doc>

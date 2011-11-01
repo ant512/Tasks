@@ -38,8 +38,8 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="WorkingWeek">
-      <HintPath>..\..\lib\WorkingWeek.dll</HintPath>
+    <Reference Include="WorkingWeek, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\WorkingWeek.1.0\lib\net40\WorkingWeek.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +56,9 @@
       <Project>{9DB265BE-4E5C-4BD0-8028-3E02254A1CB3}</Project>
       <Name>Tasks</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
