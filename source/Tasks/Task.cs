@@ -284,7 +284,6 @@ namespace Tasks
 			{
 				if (list[i].HasChildren)
 				{
-
 					var phase = list[i];
 
 					// Remove the phase
@@ -314,33 +313,32 @@ namespace Tasks
 		public void RecalculateDates(DateTime earliestDate, Week week)
 		{
 			var latestDate = earliestDate;
-			var highestPriority = Tasks.DependencyPriority.Low;
 
-			foreach (var dependency in Dependencies)
+			// Get a list of all dependencies that affect this task.
+			// That includes all dependencies that this task has and
+			// that its parents have.
+			var allDependencies = new List<IDependency>();
+			ITask task = this;
+
+			while (task != null)
+			{
+				foreach (var dependency in task.Dependencies)
+				{
+					allDependencies.Add(dependency);
+				}
+
+				task = task.Parent;
+			}
+
+			foreach (var dependency in allDependencies)
 			{
 				var dependencyDate = dependency.StartDate(week);
-				var dependencyPriority = dependency.Priority;
 
-				// Check the priority of the dependency.  Dependencies which are of a
-				// lower priority than we're currently basing our date on can be
-				// ignored.
-				if (dependencyPriority == highestPriority)
+				// Only update the date if the dependency starts later than the
+				// currently calculated date
+				if (dependencyDate > latestDate)
 				{
-
-					// Only update the date if the dependency starts later than the
-					// currently calculated date
-					if (dependencyDate > latestDate)
-					{
-						latestDate = dependencyDate;
-					}
-				}
-				else if (dependencyPriority > highestPriority)
-				{
-
-					// This dependency has a higher priority than anything we've seen
-					// so far, so we force the date to change
 					latestDate = dependencyDate;
-					highestPriority = dependencyPriority;
 				}
 			}
 

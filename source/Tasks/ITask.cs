@@ -87,6 +87,18 @@ namespace Tasks
 		/// </summary>
 		List<ITask> GetAllTaskDependencies();
 
+		/// <summary>
+		/// Add a child to the task.
+		/// </summary>
+		/// <param name="child">The child to add.</param>
+		void AddChild(ITask child);
+
+		/// <summary>
+		/// Add a dependency to the task.
+		/// </summary>
+		/// <param name="dependency">The dependency to add.</param>
+		void AddDependency(IDependency dependency);
+
 		#endregion
 	}
 }

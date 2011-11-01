@@ -38,6 +38,30 @@ namespace Tasks.Tests
 		}
 
 		[TestMethod]
+		public void TestInheritedDependencies()
+		{
+			var week = new Week();
+			week.AddShift(DayOfWeek.Monday, 9, 30, 0, 0, TimeSpan.FromHours(4));
+			week.AddShift(DayOfWeek.Monday, 14, 30, 0, 0, TimeSpan.FromHours(3));
+
+			DateTime end = week.DateAdd(new DateTime(2011, 11, 1, 9, 30, 0), TimeSpan.FromHours(7));
+			Console.WriteLine(end);
+
+			var project = new Project("Some project", new DateTime(2011, 11, 1, 9, 30, 0), week);
+			project.AddTask(new Task("Phase 1"));
+			project.Tasks[0].AddChild(new Task("Task 1", TimeSpan.FromHours(10)));
+			project.Tasks[0].AddChild(new Task("Task 2", TimeSpan.FromHours(15)));
+
+			project.AddTask(new Task("Phase 2"));
+			project.Tasks[1].AddChild(new Task("Task 1", TimeSpan.FromHours(12)));
+
+			project.Tasks[1].AddDependency(new FinishToStartDependency(project.Tasks[0]));
+			project.RecalculateDates();
+
+			Assert.AreNotEqual(project.Tasks[0].StartDate, project.Tasks[1].StartDate);
+		}
+
+		[TestMethod]
 		public void TestTaskStartEndDates()
 		{
 			var week = NewWeek();

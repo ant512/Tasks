@@ -29,10 +29,9 @@ namespace Tasks
 		/// Initializes a new instance of the Dependency class.
 		/// </summary>
 		/// <param name="dependentOn">The task on which the dependency is dependent.</param>
-		/// <param name="priority">The priority of the dependency.</param>
 		/// <param name="lag">The lag of the dependency.</param>
-		public LaggedDependency(ITask dependentOn, DependencyPriority priority, TimeSpan lag)
-			: base(dependentOn, priority)
+		public LaggedDependency(ITask dependentOn, TimeSpan lag)
+			: base(dependentOn)
 		{
 			Lag = lag;
 		}

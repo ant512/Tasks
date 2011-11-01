@@ -20,7 +20,7 @@ namespace Tasks
 		/// </summary>
 		/// <param name="dependentOn">The task on which the dependency is dependent.</param>
 		/// <param name="lag">The lag of the dependency.</param>
-		public FinishToStartDependency(ITask dependentOn, TimeSpan lag) : base(dependentOn, DependencyPriority.Low, lag)
+		public FinishToStartDependency(ITask dependentOn, TimeSpan lag) : base(dependentOn, lag)
 		{
 		}
 
@@ -30,7 +30,7 @@ namespace Tasks
 		/// </summary>
 		/// <param name="dependentOn">The task on which the dependency is dependent.</param>
 		public FinishToStartDependency(ITask dependentOn)
-			: base(dependentOn, DependencyPriority.Low, new TimeSpan(0))
+			: base(dependentOn, new TimeSpan(0))
 		{
 		}
 

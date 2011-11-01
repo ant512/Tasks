@@ -13,12 +13,6 @@ namespace Tasks
 		#region Properties
 
 		/// <summary>
-		/// Gets the priority of the dependency.  Higher priority dependencies
-		/// will override dates set by lower-priority dependencies if necessary.
-		/// </summary>
-		public DependencyPriority Priority { get; private set; }
-
-		/// <summary>
 		/// Gets the task that contains this dependency.
 		/// </summary>
 		public ITask Owner { get; set; }
@@ -48,11 +42,9 @@ namespace Tasks
 		/// Initializes a new instance of the Dependency class.
 		/// </summary>
 		/// <param name="dependentOn">The task on which the dependency is dependent.</param>
-		/// <param name="priority">The priority of the dependency.</param>
-		public Dependency(ITask dependentOn, DependencyPriority priority)
+		public Dependency(ITask dependentOn)
 		{
 			DependentOn = dependentOn;
-			Priority = priority;
 		}
 
 		#endregion
