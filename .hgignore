@@ -6,3 +6,4 @@ obj
 *.trx
 *.user
 AgentRestart.dat
+StyleCop.Cache

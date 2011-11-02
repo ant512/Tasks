@@ -25,7 +25,7 @@ namespace Tasks
 		#region Constructors
 
 		/// <summary>
-		/// Initializes a new instance of the FinishToStartDependency class.
+		/// Initializes a new instance of the FixedStartDependency class.
 		/// </summary>
 		/// <param name="startDate">The date on which the dependency will start.</param>
 		public FixedStartDependency(DateTime startDate)

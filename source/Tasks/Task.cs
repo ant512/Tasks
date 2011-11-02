@@ -42,6 +42,38 @@ namespace Tasks
 
 		#endregion
 
+		#region Constructors
+
+		/// <summary>
+		/// Initializes a new instance of the Task class.
+		/// </summary>
+		/// <param name="name">Name of the task.</param>
+		/// <param name="duration">Duration of the task as expressed as a working period.</param>
+		public Task(string name, TimeSpan duration)
+		{
+			mChildren = new List<ITask>();
+			mDependencies = new List<IDependency>();
+
+			Name = name;
+			Duration = duration;
+
+			Parent = null;
+			mStartDate = DateTime.Now;
+			mEndDate = DateTime.Now;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the Task class with duration set to 0.
+		/// Useful when creating phases.
+		/// </summary>
+		/// <param name="name">Name of the task.</param>
+		public Task(string name)
+			: this(name, new TimeSpan(0))
+		{
+		}
+
+		#endregion
+
 		#region Properties
 
 		/// <summary>
@@ -82,9 +114,11 @@ namespace Tasks
 	
 				// Set earliest date to the maximum date C# can represent
 				var earliestDate = DateTime.MaxValue;
-	
-				foreach (var child in Children) {
-					if (child.StartDate < earliestDate) {
+
+				foreach (var child in Children)
+				{
+					if (child.StartDate < earliestDate)
+					{
 						earliestDate = child.StartDate;
 					}
 				}
@@ -110,9 +144,11 @@ namespace Tasks
 	
 				// Set latestDate date to the minimum date C# can represent
 				var latestDate = DateTime.MinValue;
-	
-				foreach (var child in Children) {
-					if (child.EndDate > latestDate) {
+
+				foreach (var child in Children)
+				{
+					if (child.EndDate > latestDate)
+					{
 						latestDate = child.EndDate;
 					}
 				}
@@ -124,7 +160,8 @@ namespace Tasks
 		/// <summary>
 		/// Gets the list of dependencies.
 		/// </summary>
-		public IList<IDependency> Dependencies {
+		public IList<IDependency> Dependencies
+		{
 			get { return mDependencies.AsReadOnly(); }
 		}
 
@@ -144,9 +181,11 @@ namespace Tasks
 				// the start and end dates
 				return EndDate.Subtract(StartDate);
 			}
+
 			set
 			{
-				if (HasChildren) {
+				if (HasChildren)
+				{
 					throw new InvalidOperationException("Cannot manually set the duration of tasks with children.");
 				}
 
@@ -165,38 +204,6 @@ namespace Tasks
 		public IList<ITask> Children
 		{
 			get { return mChildren.AsReadOnly(); }
-		}
-
-		#endregion
-
-		#region Constructors
-
-		/// <summary>
-		/// Initializes a new instance of the Task class.
-		/// </summary>
-		/// <param name="name">Name of the task.</param>
-		/// <param name="duration">Duration of the task as expressed as a working period.</param>
-		public Task(string name, TimeSpan duration)
-		{
-			mChildren = new List<ITask>();
-			mDependencies = new List<IDependency>();
-	
-			Name = name;
-			Duration = duration;
-
-			Parent = null;
-			mStartDate = DateTime.Now;
-			mEndDate = DateTime.Now;
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the Task class with duration set to 0.
-		/// Useful when creating phases.
-		/// </summary>
-		/// <param name="name">Name of the task.</param>
-		public Task(string name)
-			: this(name, new TimeSpan(0))
-		{
 		}
 
 		#endregion
@@ -291,6 +298,7 @@ namespace Tasks
 						list.Add(dependentOn);
 					}
 				}
+
 				currentTask = currentTask.Parent;
 			}
 

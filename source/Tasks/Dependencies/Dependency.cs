@@ -10,10 +10,23 @@ namespace Tasks
 	/// </summary>
 	public abstract class Dependency : IDependency
 	{
+		#region Constructors
+
+		/// <summary>
+		/// Initializes a new instance of the Dependency class.
+		/// </summary>
+		/// <param name="dependentOn">The task on which the dependency is dependent.</param>
+		public Dependency(ITask dependentOn)
+		{
+			DependentOn = dependentOn;
+		}
+
+		#endregion
+
 		#region Properties
 
 		/// <summary>
-		/// Gets the task that contains this dependency.
+		/// Gets or sets the task that contains this dependency.
 		/// </summary>
 		public ITask Owner { get; set; }
 
@@ -33,19 +46,6 @@ namespace Tasks
 		/// <param name="week">The working week definition.</param>
 		/// <returns>The start date of the dependency.</returns>
 		public abstract DateTime StartDate(WorkingWeek.Week week);
-
-		#endregion
-
-		#region Constructors
-
-		/// <summary>
-		/// Initializes a new instance of the Dependency class.
-		/// </summary>
-		/// <param name="dependentOn">The task on which the dependency is dependent.</param>
-		public Dependency(ITask dependentOn)
-		{
-			DependentOn = dependentOn;
-		}
 
 		#endregion
 	}

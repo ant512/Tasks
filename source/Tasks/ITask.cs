@@ -75,6 +75,8 @@ namespace Tasks
 		/// (in the situation where it has no dependencies, for example) is the value
 		/// passed as earliestDate.
 		/// </summary>
+		/// <param name="earliestDate">The earliest date allowed for the task.</param>
+		/// <param name="week">The week to use in date calculations.</param>
 		void RecalculateDates(DateTime earliestDate, Week week);
 
 		/// <summary>
@@ -85,13 +87,14 @@ namespace Tasks
 		/// children (and if any of those is a phase, it is replaced with its children,
 		/// etc).
 		/// </summary>
+		/// <returns>The list of all tasks on which this task is dependent.</returns>
 		List<ITask> GetAllTaskDependencies();
 
 		/// <summary>
 		/// Add a child to the task.  The new child's parent is automatically set to the
 		/// current task.
 		/// </summary>
-		/// <param name="task">The task to add as a child.</param>
+		/// <param name="child">The task to add as a child.</param>
 		void AddChild(ITask child);
 
 		/// <summary>

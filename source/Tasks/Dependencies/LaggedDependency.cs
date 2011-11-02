@@ -11,6 +11,21 @@ namespace Tasks
 	/// </summary>
 	public abstract class LaggedDependency : Dependency
 	{
+		#region Constructors
+
+		/// <summary>
+		/// Initializes a new instance of the LaggedDependency class.
+		/// </summary>
+		/// <param name="dependentOn">The task on which the dependency is dependent.</param>
+		/// <param name="lag">The lag of the dependency.</param>
+		public LaggedDependency(ITask dependentOn, TimeSpan lag)
+			: base(dependentOn)
+		{
+			Lag = lag;
+		}
+
+		#endregion
+
 		#region Properties
 
 		/// <summary>
@@ -20,21 +35,6 @@ namespace Tasks
 		/// task ends by setting the lag to an hour.
 		/// </summary>
 		public TimeSpan Lag { get; set; }
-
-		#endregion
-
-		#region Constructors
-
-		/// <summary>
-		/// Initializes a new instance of the Dependency class.
-		/// </summary>
-		/// <param name="dependentOn">The task on which the dependency is dependent.</param>
-		/// <param name="lag">The lag of the dependency.</param>
-		public LaggedDependency(ITask dependentOn, TimeSpan lag)
-			: base(dependentOn)
-		{
-			Lag = lag;
-		}
 
 		#endregion
 	}

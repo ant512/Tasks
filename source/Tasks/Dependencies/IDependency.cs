@@ -14,7 +14,7 @@ namespace Tasks
 		#region Properties
 
 		/// <summary>
-		/// Gets the task that contains this dependency.
+		/// Gets or sets the task that contains this dependency.
 		/// </summary>
 		ITask Owner { get; set; }
 

@@ -12,6 +12,25 @@ namespace Tasks
 	/// </summary>
 	public class Project
 	{
+		#region Constructors
+
+		/// <summary>
+		/// Initializes a new instance of the Project class.
+		/// </summary>
+		/// <param name="name">The name of the project.</param>
+		/// <param name="startDate">The start date of the project.</param>
+		/// <param name="week">The working week definition to use when calculating task dates.</param>
+		public Project(string name, DateTime startDate, Week week)
+		{
+			Name = name;
+			StartDate = startDate;
+			Week = week;
+
+			Tasks = new List<ITask>();
+		}
+
+		#endregion
+
 		#region Properties
 
 		/// <summary>
@@ -34,25 +53,6 @@ namespace Tasks
 		/// task dates.
 		/// </summary>
 		public Week Week { get; set; }
-
-		#endregion
-
-		#region Constructors
-
-		/// <summary>
-		/// Initializes a new instance of the Project class.
-		/// </summary>
-		/// <param name="name">The name of the project.</param>
-		/// <param name="startDate">The start date of the project.</param>
-		/// <param name="week">The working week definition to use when calculating task dates.</param>
-		public Project(string name, DateTime startDate, Week week)
-		{
-			Name = name;
-			StartDate = startDate;
-			Week = week;
-
-			Tasks = new List<ITask>();
-		}
 
 		#endregion
 

@@ -11,48 +11,44 @@ namespace Tasks
 	/// </summary>
 	public class DateCalculator
 	{
-		#region Classes
-
-		/// <summary>
-		/// Class that stores a task object along side a list of the tasks that
-		/// it is dependent on.
-		/// </summary>
-		private class TaskDependencies
-		{
-			/// <summary>
-			/// Gets the task.
-			/// </summary>
-			public ITask Task { get; private set; }
-
-			/// <summary>
-			/// Gets the list of tasks on which the task is dependent.
-			/// </summary>
-			public List<ITask> Dependencies { get; private set; }
-
-			/// <summary>
-			/// Initializes a new instance of the TaskDependencies class.
-			/// </summary>
-			/// <param name="task">The task.</param>
-			/// <param name="dependencies">The tasks on which the task is dependent.</param>
-			public TaskDependencies(ITask task, List<ITask> dependencies)
-			{
-				Task = task;
-				Dependencies = dependencies;
-			}
-		}
-
-		#endregion
-
 		#region Methods
 
 		/// <summary>
-		/// Get a flattened array of the tasks in the current tree array.  Each item in
-		/// the array in an anonymous object consisting of a task and an array of
-		/// dependencies.  Dependencies are represented solely by the task on which the
-		/// current task is dependent.  Phases (tasks with children) are not represented
-		/// in the array.  Dependencies on phases are replaced with dependencies on all
-		/// children within the phase.  For example, suppose we have this:
-		///
+		/// Recalculates the start date of all tasks in the list.  Relies on the GetSortedList()
+		/// function to ensure that all tasks on which task T is dependent on are
+		/// calculated before T is reached.  Recalculating dates becomes a simple matter
+		/// of asking the task's dependencies for their start dates, and choosing the
+		/// latest date.
+		/// </summary>
+		/// <param name="tasks">The array/tree hybrid data structure that contains the
+		/// tasks to recalculate.</param>
+		/// <param name="earliestDate">The earliest date for any task.</param>
+		/// <param name="week">The working week to base date calculations on.</param>
+		public void RecalculateDates(List<ITask> tasks, DateTime earliestDate, Week week)
+		{
+			// Ensure that the list is sorted topologically before we begin.  This means
+			// that all tasks will have the correct start and end dates before any
+			// dependent tasks have their dates calculated
+			var list = GetSortedList(tasks);
+
+			// Recalculate the start date for all tasks in the list
+			foreach (var task in list)
+			{
+				task.RecalculateDates(earliestDate, week);
+			}
+		}
+
+		/// <summary>
+		/// Get a flattened array of the tasks in the current tree array.
+		/// </summary>
+		/// <remarks>
+		/// <para>Each item in the array in an anonymous object consisting of a task
+		/// and an array of dependencies.  Dependencies are represented solely by the
+		/// task on which the current task is dependent.  Phases (tasks with children)
+		/// are not represented in the array.  Dependencies on phases are replaced with
+		/// dependencies on all children within the phase.  For example, suppose we have
+		/// this:</para>
+		/// <para>
 		/// +-----+
 		/// |  1  |---------+
 		/// +-----+         |
@@ -67,20 +63,23 @@ namespace Tasks
 		///                                 +-----+
 		///                                 |  5  |
 		///                                 +-----+
-		///
+		/// </para>
+		/// <para>
 		/// The resultant array looks like this:
 		///   1
 		///   3 (dependent on 1)
 		///   4 (dependent on 3 and 1)
 		///   5 (dependent on 3 and 4)
-		///
+		/// </para>
+		/// <para>
 		/// We've basically substituted phase 2 with (task 3 and 4).  This means that
 		/// we don't run into a cyclic dependency issue.  In the diagram above, the start
 		/// of 3 is dependent on the start of 2.  However, if 3 had a dependency on
 		/// another task, then the start of 2 would also be dependent on the start of 3.
 		/// Cyclic dependency = impossible to resolve without some nasty, hacky
 		/// workarounds.
-		/// </summary>
+		/// </para>
+		/// </remarks>
 		/// <param name="tasks">The array/tree hybrid data structure that contains the
 		/// tasks to recalculate.</param>
 		/// <returns>An array of task/dependencies.</returns>
@@ -195,29 +194,36 @@ namespace Tasks
 			return sortedTasks;
 		}
 
-		/// <summary>
-		/// Recalculates the start date of all tasks in the list.  Relies on the GetSortedList()
-		/// function to ensure that all tasks on which task T is dependent on are
-		/// calculated before T is reached.  Recalculating dates becomes a simple matter
-		/// of asking the task's dependencies for their start dates, and choosing the
-		/// latest date.
-		/// </summary>
-		/// <param name="tasks">The array/tree hybrid data structure that contains the
-		/// tasks to recalculate.</param>
-		/// <param name="earliestDate">The earliest date for any task.</param>
-		/// <param name="week">The working week to base date calculations on.</param>
-		public void RecalculateDates(List<ITask> tasks, DateTime earliestDate, Week week)
-		{
-			// Ensure that the list is sorted topologically before we begin.  This means
-			// that all tasks will have the correct start and end dates before any
-			// dependent tasks have their dates calculated
-			var list = GetSortedList(tasks);
+		#endregion
 
-			// Recalculate the start date for all tasks in the list
-			foreach (var task in list)
+		#region Classes
+
+		/// <summary>
+		/// Class that stores a task object along side a list of the tasks that
+		/// it is dependent on.
+		/// </summary>
+		private class TaskDependencies
+		{
+			/// <summary>
+			/// Initializes a new instance of the TaskDependencies class.
+			/// </summary>
+			/// <param name="task">The task.</param>
+			/// <param name="dependencies">The tasks on which the task is dependent.</param>
+			public TaskDependencies(ITask task, List<ITask> dependencies)
 			{
-				task.RecalculateDates(earliestDate, week);
+				Task = task;
+				Dependencies = dependencies;
 			}
+
+			/// <summary>
+			/// Gets the task.
+			/// </summary>
+			public ITask Task { get; private set; }
+
+			/// <summary>
+			/// Gets the list of tasks on which the task is dependent.
+			/// </summary>
+			public List<ITask> Dependencies { get; private set; }
 		}
 
 		#endregion
